@@ -23,27 +23,28 @@ def _process(arguments, others):
     assert len(others) >= 1
 
     # Here we would normally process something.
-    pass
+    raise Exception("Holy Moses!")
 
 
 def main(arguments=None):
     if arguments is None:
-        arguments = sys.argv
+        arguments = sys.argv[1:]
 
     # Exit code: 0=success, >0=error.
     exit_code = 1
 
     # Process arguments. In case of errors, report them and exit.
-    parser = argparse.ArgumentParser(usage='process some report')
-    parser.add_argument("-o", "--out", dest="target_path",
+    parser = argparse.ArgumentParser(description='report some')
+    parser.add_argument("-o", "--out", dest="others",
         help="write report to FILE", metavar="FILE")
-    arguments, others = parser.parse_args(arguments)
-    if len(others) < 1:
+    arguments = parser.parse_args(arguments)
+
+    if len(arguments.others) < 1:
         # Note: parser.error() raises SystemExit.
         parser.error('input files must be specified')
 
     try:
-        _process(arguments, others)
+        _process(arguments, arguments.others)
         exit_code = 0  # Success!
     except KeyboardInterrupt:
         _log.error('stopped as requested by user')
