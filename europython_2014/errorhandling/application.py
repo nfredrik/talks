@@ -23,7 +23,7 @@ def _process(arguments, others):
     assert len(others) >= 1
 
     # Here we would normally process something.
-    raise Exception("Holy Moses!")
+    assert False, "Holy Moses!"
 
 
 def main(arguments=None):
@@ -48,7 +48,7 @@ def main(arguments=None):
         exit_code = 0  # Success!
     except KeyboardInterrupt:
         _log.error('stopped as requested by user')
-    except (DataError, OSError) as error:
+    except (DataError, EnvironmentError) as error:
         _log.error(error)
     except Exception as error:
         _log.exception(error)
